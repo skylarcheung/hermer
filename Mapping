@@ -1,0 +1,95 @@
+####Starting over with the data
+
+#this is the Quebec data only
+#import newest csv iterationl containing all the bylaw rows
+dfQ <- read.csv('/Users/skylar/Desktop/QC.csv')
+
+#change the names of the offenses
+dfQ$Offenses <- gsub("Panhandling", "Panhandling/Mendier", dfQ$Offenses)
+dfQ$Offenses <- gsub("panhandling", "Panhandling/Mendier", dfQ$Offenses)
+
+dfQ$Offenses <- gsub("Obstructing", "Obstructing/Provoquer une Obstruction", dfQ$Offenses)
+dfQ$Offenses <- gsub("obstructing", "Obstructing/Provoquer une Obstruction", dfQ$Offenses)
+
+dfQ$Offenses <- gsub("Disorder", "Disorder/Occasionner des Troubles", dfQ$Offenses)
+dfQ$Offenses <- gsub("disorder", "Disorder/Occasionner des Troubles", dfQ$Offenses)
+
+dfQ$Offenses<- gsub("salvaging", "Salvaging/Récupérer et Réutiliser des Déchets", dfQ$Offenses)
+dfQ$Offenses <- gsub("Salvaging", "Salvaging/Récupérer et Réutiliser des Déchets", dfQ$Offenses)
+
+dfQ$Offenses <- gsub("sheltering", "Sheltering/Construire un Abri de Fortune", dfQ$Offenses)
+dfQ$Offenses <- gsub("Sheltering", "Sheltering/Construire un Abri de Fortune", dfQ$Offenses)
+
+dfQ$Offenses <- gsub("resting", "Resting or Sleeping/Se Reposer ou S'allonger au Sol", dfQ$Offenses)
+dfQ$Offenses <- gsub("Resting", "Resting or Sleeping/Se Reposer ou S'allonger au Sole", dfQ$Offenses)
+dfQ$Offenses <- gsub("Resting/Sleeping", "Resting or Sleeping/Se Reposer ou S'allonger au Sole", dfQ$Offenses)
+dfQ$Offenses <- gsub("Sleeping", "Resting or Sleeping/Se Reposer ou S'allonger au Sole", dfQ$Offenses)
+
+dfQ$Offenses <- gsub("Loitering", "Loitering/Flâner", dfQ$Offenses)
+dfQ$Offenses <- gsub("loitering", "Loitering/Flânerr", dfQ$Offenses)
+
+#now we have to add the corresponding tags to each string
+
+dfQ1 <- dfQ
+dfQ1$Offenses = paste0("<tr> <td class='left'>",dfQ1$Offenses,"</td>")
+dfQ1$prov = paste0("<td>",dfQ1$prov,"</td>")
+dfQ1$muni = paste0("<td>",dfQ1$muni,"</td>")
+dfQ1$yr = paste0("<td>",dfQ1$yr,"</td>")
+dfQ1$Law...url = paste0("<a href='",dfQ1$Law...url,"'>")
+dfQ1$law = paste0("<td class='left'>",dfQ1$Law...url,dfQ1$law,"</a></td></tr>")
+
+#smush all the columns into one
+dfQ1$all <- paste(dfQ1$Offenses,dfQ1$prov,dfQ1$muni,dfQ1$yr,dfQ1$law)
+
+dfQ2 <- subset(dfQ1, select = c(all))
+
+#turn this work into a txt file
+capture.output(dfQ2, file = "/Users/skylar/Desktop/September25QCIndex.txt", row.names = FALSE) 
+
+#write into a csv
+write.csv(dfQ2, "/Users/skylar/Desktop/QC.csv", row.names=FALSE)
+
+
+df <- read.csv('/Users/skylar/Desktop/a1.csv')
+
+####ORIGINAL CODE change the names of the offenses
+df$Offenses <- gsub("Panhandling", "Panhandling/Mendier", df$Offenses)
+df$Offenses <- gsub("Panhanding", "Panhandling/Mendier", df$Offenses)
+df$Offenses <- gsub("panhandling", "Panhandling/Mendier", df$Offenses)
+
+df$Offenses <- gsub("Obstructing", "Obstructing/Provoquer une Obstruction", df$Offenses)
+df$Offenses <- gsub("obstructing", "Obstructing/Provoquer une Obstruction", df$Offenses)
+
+df$Offenses <- gsub("Disorder", "Disorder/Occasionner des Troubles", df$Offenses)
+df$Offenses <- gsub("disorder", "Disorder/Occasionner des Troubles", df$Offenses)
+
+df$Offenses <- gsub("salvaging", "Salvaging/Récupérer et Réutiliser des Déchets", df$Offenses)
+df$Offenses <- gsub("Salvaging", "Salvaging/Récupérer et Réutiliser des Déchets", df$Offenses)
+
+df$Offenses <- gsub("sheltering", "Sheltering/Construire un Abri de Fortune", df$Offenses)
+df$Offenses <- gsub("Sheltering", "Sheltering/Construire un Abri de Fortune", df$Offenses)
+
+df$Offenses <- gsub("resting", "Resting or Sleeping/Se Reposer ou S'allonger au Sol", df$Offenses)
+df$Offenses <- gsub("Resting", "Resting or Sleeping/Se Reposer ou S'allonger au Sole", df$Offenses)
+df$Offenses <- gsub("Resting/Sleeping", "Resting or Sleeping/Se Reposer ou S'allonger au Sole", df$Offenses)
+df$Offenses <- gsub("Sleeping", "Resting or Sleeping/Se Reposer ou S'allonger au Sole", df$Offenses)
+
+df$Offenses <- gsub("Loitering", "Loitering/Flâner", df$Offenses)
+df$Offenses <- gsub("loitering", "Loitering/Flânerr", df$Offenses)
+
+#now we have to add the corresponding tags to each string
+
+df1 <- df
+df1$Offenses = paste0("<tr> <td class='left'>",df1$Offenses,"</td>")
+df1$prov = paste0("<td>",df1$prov,"</td>")
+df1$muni = paste0("<td>",df1$muni,"</td>")
+df1$yr = paste0("<td>",df1$yr,"</td>")
+df1$Law...url = paste0("<a href='",df1$Law...url,"'>")
+df1$law = paste0("<td class='left'>",df1$Law...url,df1$law,"</a></td></tr>")
+
+#smush all the columns into one
+df1$all <- paste(df1$Offenses,df1$prov,df1$muni,df1$yr,df1$law)
+df2 <- subset(df1, select = c(all))
+
+#write into a csv
+write.csv(df2, "/Users/skylar/Desktop/ALL.csv", row.names=FALSE)
